@@ -41,7 +41,7 @@ void find_connected_components(int adj_matrix[MAX_NODES][MAX_NODES], int num_nod
 
 int main() {
     int adjacency_matrix[MAX_NODES][MAX_NODES] = {
-        {1, 1, 0, 0, 0},
+        {0, 1, 0, 0, 0},
         {1, 1, 0, 0, 0},
         {0, 0, 1, 0, 0},
         {0, 0, 0, 1, 0},
