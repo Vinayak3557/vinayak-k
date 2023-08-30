@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_NUMBERS 100
+#define MAX_NUMBER_LENGTH 15
+
+void merge(char **numbers, int left, int middle, int right) {
+    int i, j, k;
+    int n1 = middle - left + 1;
+    int n2 = right - middle;
+
+    char **leftNumbers = (char **)malloc(sizeof(char *) * n1);
+    char **rightNumbers = (char **)malloc(sizeof(char *) * n2);
+
+    for (i = 0; i < n1; i++) {
+        leftNumbers[i] = numbers[left + i];
+    }
+    for (j = 0; j < n2; j++) {
+        rightNumbers[j] = numbers[middle + 1 + j];
+    }
+
+    i = 0;
+    j = 0;
+    k = left;
+
+    while (i < n1 && j < n2) {
+        if (strcmp(leftNumbers[i], rightNumbers[j]) <= 0) {
+            numbers[k] = leftNumbers[i];
+            i++;
+        } else {
+            numbers[k] = rightNumbers[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        numbers[k] = leftNumbers[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        numbers[k] = rightNumbers[j];
+        j++;
+        k++;
+    }
+
+    free(leftNumbers);
+    free(rightNumbers);
+}
+
+void mergeSort(char **numbers, int left, int right) {
+    if (left < right) {
+        int middle = left + (right - left) / 2;
+
+        mergeSort(numbers, left, middle);
+        mergeSort(numbers, middle + 1, right);
+
+        merge(numbers, left, middle, right);
+    }
+}
+
+int main() {
+    char *numbers[MAX_NUMBERS];
+    int numNumbers = 0;
+
+    printf("Enter mobile numbers in the contact list (one number per line).\n");
+    printf("Enter 'done' when finished.\n");
+
+    char input[MAX_NUMBER_LENGTH];
+    while (numNumbers < MAX_NUMBERS) {
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = '\0';  // Remove newline character
+
+        if (strcmp(input, "done") == 0) {
+            break;
+        }
+
+        numbers[numNumbers] = (char *)malloc(sizeof(char) * (strlen(input) + 1));
+        strcpy(numbers[numNumbers], input);
+        numNumbers++;
+    }
+
+    mergeSort(numbers, 0, numNumbers - 1);
+
+    printf("\nSorted list of mobile numbers:\n");
+    for (int i = 0; i < numNumbers; i
