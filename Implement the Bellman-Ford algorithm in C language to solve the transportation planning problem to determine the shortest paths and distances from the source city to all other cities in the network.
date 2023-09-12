@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+// Define the maximum number of cities in the network
+#define MAX_CITIES 100
+
+// Function to perform Bellman-Ford algorithm
+void bellmanFord(int graph[MAX_CITIES][MAX_CITIES], int numCities, int sourceCity) {
+    int distance[MAX_CITIES];
+
+    // Initialize distances from source city to all other cities as infinity
+    for (int i = 0; i < numCities; i++) {
+        distance[i] = INT_MAX;
+    }
+
+    // Distance from source city to itself is always 0
+    distance[sourceCity] = 0;
+
+    // Relax all edges (numCities - 1) times
+    for (int i = 0; i < numCities - 1; i++) {
+        for (int u = 0; u < numCities; u++) {
+            for (int v = 0; v < numCities; v++) {
+                if (graph[u][v] != 0 && distance[u] != INT_MAX && distance[u] + graph[u][v] < distance[v]) {
+                    distance[v] = distance[u] + graph[u][v];
+                }
+            }
+        }
+    }
+
+    // Print the shortest distances
+    printf("Shortest distances from city %d to all other cities:\n", sourceCity);
+    for (int i = 0; i < numCities; i++) {
+        printf("City %d: %d\n", i, distance[i]);
+    }
+}
+
+int main() {
+    int numCities, sourceCity;
+    
+    // Input the number of cities and the source city
+    printf("Enter the number of cities: ");
+    scanf("%d", &numCities);
+    
+    printf("Enter the source city (0 to %d): ", numCities - 1);
+    scanf("%d", &sourceCity);
+
+    int graph[MAX_CITIES][MAX_CITIES];
+
+    // Input the adjacency matrix representing the distances between cities
+    printf("Enter the adjacency matrix (0 for no connection):\n");
+    for (int i = 0; i < numCities; i++) {
+        for (int j = 0; j < numCities; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    bellmanFord(graph, numCities, sourceCity);
+
+    return 0;
+}
