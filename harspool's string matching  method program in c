@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_CHAR 256
+
+// Function to perform preprocessing for the Bad Character Heuristic
+void preprocessBadChar(char* pattern, int patternLength, int badCharShift[MAX_CHAR]) {
+    int i;
+
+    for (i = 0; i < MAX_CHAR; i++) {
+        badCharShift[i] = patternLength;
+    }
+
+    for (i = 0; i < patternLength - 1; i++) {
+        badCharShift[(int)pattern[i]] = patternLength - i - 1;
+    }
+}
+
+// Function to perform Horspool's string matching
+void horspoolSearch(char* text, char* pattern) {
+    int textLength = strlen(text);
+    int patternLength = strlen(pattern);
+    int badCharShift[MAX_CHAR];
+    int i = patternLength - 1;
+
+    // Preprocess the bad character shift table
+    preprocessBadChar(pattern, patternLength, badCharShift);
+
+    while (i < textLength) {
+        int j = 0;
+
+        while (j < patternLength && pattern[patternLength - 1 - j] == text[i - j]) {
+            j++;
+        }
+
+        if (j == patternLength) {
+            // Pattern found at index i - patternLength + 1
+            printf("Pattern found at index %d\n", i - patternLength + 1);
+
+            // Shift based on bad character heuristic
+            i += patternLength - 1;
+        } else {
+            // Shift based on bad character heuristic
+            i += badCharShift[(int)text[i]];
+        }
+    }
+}
+
+int main() {
+    char text[] = "THIS IS A TEST TEXT";
+    char pattern[] = "TEST";
+
+    printf("Text: %s\n", text);
+    printf("Pattern: %s\n", pattern);
+
+    horspoolSearch(text, pattern);
+
+    return 0;
+}
