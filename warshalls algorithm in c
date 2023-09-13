@@ -2,7 +2,7 @@
 
 #define MAX_VERTICES 100
 
-// Function to perform Warshall's algorithm to find transitive closure
+
 void warshall(int graph[MAX_VERTICES][MAX_VERTICES], int numVertices) {
     int i, j, k;
 
@@ -21,24 +21,20 @@ void warshall(int graph[MAX_VERTICES][MAX_VERTICES], int numVertices) {
 int main() {
     int numVertices;
 
-    // Input the number of vertices in the graph
+  
     printf("Enter the number of vertices: ");
     scanf("%d", &numVertices);
 
     int graph[MAX_VERTICES][MAX_VERTICES];
 
-    // Input the adjacency matrix of the directed graph
+
     printf("Enter the adjacency matrix (1 for connected, 0 for not connected):\n");
     for (int i = 0; i < numVertices; i++) {
         for (int j = 0; j < numVertices; j++) {
             scanf("%d", &graph[i][j]);
         }
     }
-
-    // Find transitive closure using Warshall's algorithm
     warshall(graph, numVertices);
-
-    // Print the transitive closure
     printf("Transitive Closure:\n");
     for (int i = 0; i < numVertices; i++) {
         for (int j = 0; j < numVertices; j++) {
