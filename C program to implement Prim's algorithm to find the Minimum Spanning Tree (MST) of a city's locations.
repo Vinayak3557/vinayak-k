@@ -2,10 +2,10 @@
 #include <stdbool.h>
 #include <limits.h>
 
-#define V 10 // Maximum number of vertices (locations)
+#define V 10 
 #define INF INT_MAX
 
-int graph[V][V]; // Adjacency matrix to represent the graph
+int graph[V][V]; 
 
 int minKey(int key[], bool mstSet[], int vertices) {
     int min = INF;
@@ -60,9 +60,8 @@ void primMST(int vertices, int locations[V][2]) {
 }
 
 int main() {
-    int vertices; // Number of locations
-    int locations[V][2]; // Coordinates of locations
-
+    int vertices;
+    int locations[V][2]; 
     printf("Enter the number of locations: ");
     scanf("%d", &vertices);
 
